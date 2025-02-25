@@ -39,7 +39,7 @@ This assumes that you have setup Fabric with the approrpriate commands in zsh so
     uvicorn app.main:app --port 8542 --reload
     ```
 
-## Usage
+## Calling via Shell Script
 
 1.  Make sure the FastAPI server is running.
 
@@ -57,11 +57,40 @@ This assumes that you have setup Fabric with the approrpriate commands in zsh so
     ./scripts/run.sh "echo" "This is a long text" "summarize" "Summary"
     ```
 
-## Configuration
+    Another Example:
 
-*   The FastAPI server runs on `http://localhost:8542` by default.
-*   Ensure that Fabric and Bear CLI are correctly configured in your environment.  Specifically, the `summarize` command needs to be available in the environment where the FastAPI application is running (e.g., by sourcing your `.zshrc` or setting the `PATH` variable).
+    To run the "extract_wisdom" pattern on a YouTube video and create a Bear note with the title "Roger Barnes Shows Avel Dro", run:
 
-## License
+    ```bash
+    ./scripts/run.sh "yt" "https://www.youtube.com/watch?v=Hij5HWAwsbY" "extract_wisdom" "Roger Barnes Shows Avel Dro"
+    ```
 
-MIT
+## Calling via Curl
+
+You can also call the FastAPI endpoint directly using `curl`. Here's an example:
+
+```bash
+curl -X POST \
+  http://localhost:8542/fabric \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "command": "echo",
+    "text": "This is a long text to summarize",
+    "pattern": "summarize",
+    "title": "Summary via Curl"
+  }'
+```
+
+Another example: To run the "extract_wisdom" pattern on a YouTube video and create a Bear note with the title "Roger Barnes Shows Avel Dro", run:
+
+```bash
+curl -X POST \
+  http://localhost:8542/fabric \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "command": "yt",
+    "text": "https://www.youtube.com/watch?v=Hij5HWAwsbY",
+    "pattern": "extract_wisdom",
+    "title": "Roger Barnes Shows Avel Dro"
+  }'
+```
